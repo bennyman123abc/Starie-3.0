@@ -16,7 +16,7 @@ var defaultPrefix = "!";
 
 client.on('ready', () => {
     console.log(`Started up as user ${client.user.username}!`);
-    client.user.setGame("with the building blocks of life.");
+    client.user.setGame(config['basic']['game']);
 });
 
 client.on('message', (message) => {
