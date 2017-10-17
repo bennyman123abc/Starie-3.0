@@ -4,8 +4,27 @@
   "description": "Starie bot",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "./node_modules/nodemon/bin/nodemon.js index.js --exec 'npm run lint && node'",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "./node_modules/.bin/eslint **/*.js"
   },
   "author": "Matthe815",
-  "license": "GPL-3.0"
+  "license": "GPL-3.0",
+  "dependencies": {
+    "async-limiter": "^1.0.0",
+    "bignumber.js": "^4.1.0",
+    "core-util-is": "^1.0.2",
+    "discord.js": "^11.2.1",
+    "my-interface": "0.0.4",
+    "mysql": "^2.15.0",
+    "nodemon": "^1.12.1"
+  },
+  "devDependencies": {
+    "eslint": "^4.9.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.2.0",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1"
+  }
 }
