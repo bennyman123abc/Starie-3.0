@@ -35,7 +35,7 @@ client.on('message', (message) => {
 	}
 	
 	try {
-	connection.query(`INSERT INTO messageLog(content,user,guild,nickname,time) VALUES("${connection.escape(msg)}","${message.member.id}","${message.guild.id}","${connection.escape(message.member.displayName)}","${new Date()}");`, function (error, results, fields) {
+	connection.query(`INSERT INTO messageLog(content,user,guild,nickname,time) VALUES("${connection.escape(msg)}","${connection.escape(message.member.id)}","${connection.escape(message.guild.id)}","${connection.escape(message.member.displayName)}","${connection.escape(new Date())}");`, function (error, results, fields) {
 	if (error) throw error;	
           console.log(msg);
 	});
@@ -62,7 +62,7 @@ function getUserPrefix(userID, guildID)
     var prefix = null;
 
 	try {
-	connection.query(`SELECT prefix FROM userPrefixes WHERE user="${userID}"`, function (error, results, fields) {
+	connection.query(`SELECT prefix FROM userPrefixes WHERE user="${connection.escape(userID)}"`, function (error, results, fields) {
         if (results.length > 0)
         {		
 		prefix = results[0].prefix;
@@ -77,7 +77,7 @@ function getUserPrefix(userID, guildID)
 	if (prefix == undefined)
 	{
 	    try {
-	    connection.query(`SELECT prefix FROM serverSettings WHERE guildID="${guildID}"`, function (error, results, fields) {
+	    connection.query(`SELECT prefix FROM serverSettings WHERE guildID="${connection.escape(guildID)}"`, function (error, results, fields) {
 		    if (results.length)
 			{
 		    prefix = results[0].prefix;
@@ -176,7 +176,7 @@ function checkCommand(mess,message,user,other=null,other2=null) {
 	    eval(contents)
 
 		// And log the use of the command.
-		connection.query(`INSERT INTO commandLog(commandName,user,guild,nickname,time) VALUES("${connection.escape(command)}", "${user.id}", "${message.guild.id}", "${connection.escape(message.member.displayName)}", "${new Date()}");`, function (error, results, fields) {
+		connection.query(`INSERT INTO commandLog(commandName,user,guild,nickname,time) VALUES("${connection.escape(command)}", "${connection.escape(user.id)}", "${connection.escape(message.guild.id)}", "${connection.escape(message.member.displayName)}", "${connection.escape(new Date())}");`, function (error, results, fields) {
 		
 		if (error) throw error;	
 		});
@@ -188,7 +188,7 @@ function checkCommand(mess,message,user,other=null,other2=null) {
 		var d = new Date();
 		
 
-		connection.query(`INSERT INTO errorLog(info,time) VALUES("${e}","${d}");`, function (error, results, fields) {
+		connection.query(`INSERT INTO errorLog(info,time) VALUES("${connection.escape(e)}","${connection.escape(d)}");`, function (error, results, fields) {
 		
 		});
 		}
