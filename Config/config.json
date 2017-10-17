@@ -1,6 +1,7 @@
 {
     "basic" : {
-	    "token" : "TOKEN_GOES_HERE"
+	    "token" : "TOKEN_GOES_HERE",
+	    "game" : "with the building blocks of life."
 	},
 	
     "mySQL" : {
