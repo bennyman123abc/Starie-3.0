@@ -1,5 +1,5 @@
 # Starie-3.0
-Matthe815's Starie now has her source code open source. But there's some things you must know.
+Matthe815's semi-famous starie now has her source code open source. But there's some things you must know.
 
 ## Commands
 All of her commands are stored in the "Commands" directory, the commands can use any variables from the main file and anything sent to the command handler. If you want to add a command, it will be automatically processed and added to the help list.
