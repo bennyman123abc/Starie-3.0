@@ -1,0 +1,12 @@
+{
+    "basic" : {
+	    "token" : "TOKEN_GOES_HERE"
+	},
+	
+    "mySQL" : {
+	    "host" : "localhost",
+		"username" : "username",
+		"password" : "password",
+		"database" : "Starie"
+	}
+}
