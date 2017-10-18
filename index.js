@@ -16,6 +16,35 @@ if (config['basic']['storage'] == 'mysql') {
 }
 var defaultPrefix = "!";
 
+// Create the default directories if they don't exist & only in local mode.
+if (config['basic']['storage'] == 'local')
+{
+	// Check if it doesn't exist.
+    if (!fs.existsSync('database'))
+	{
+	    // Create it if it doesn't.
+		fs.mkdirSync('database');
+	}
+    // Check if it doesn't exist.
+    if (!fs.existsSync(config['local']['userSettings']))
+	{
+	    // Create it if it doesn't.
+		fs.mkdirSync(config['local']['userSettings']);
+	}
+	// Check if it doesn't exist.
+    if (!fs.existsSync(config['local']['serverSettings']))
+	{
+	    // Create it if it doesn't.
+		fs.mkdirSync(config['local']['serverSettings']);
+	}
+	// Check if it doesn't exist.
+    if (!fs.existsSync(config['local']['Logs']))
+	{
+	    // Create it if it doesn't.
+		fs.mkdirSync(config['local']['Logs']);
+	}
+}
+
 client.on('ready', () => {
     console.log(`Started up as user ${client.user.username}!`);
     client.user.setGame("with the building blocks of life.");
@@ -25,16 +54,30 @@ client.on('message', (message) => {
     var msg = message.content;
     var msgLow = msg.toLowerCase();
 
+	// Don't let bots interact with Starie.
     if (message.author.bot) return;
 
+	// Get the prefix of the poster.
     var prefix = getUserPrefix(message.member);
     console.log(prefix);
 
+	// Quickly create the user config when someone new posts a message.
+	if (!fs.existsSync(`${config['local']['userSettings']}/${message.author.id}.json`))
+	{
+	    // Open the user's file.
+	    fs.open(`${config['local']['userSettings']}/${message.author.id}.json`, 'wx', () => {
+	        // And write the default information to it.
+			fs.writeFileSync(`${config['local']['userSettings']}/${message.author.id}.json`, `{"Whitelisted" : false, "Blacklisted" : false, "Permissions" : [], "Prefix" : "!", "Owner" : false, "canBypassPermissions" : false}`);
+	    });
+	}
+	
+	// If a message starts with the prefix, check the command.
     if (msgLow.startsWith(prefix)) {
         var cmd = trimPrefix(msg, message.member);
         checkCommand(cmd, message, message.author);
     }
 
+	// Add to the message log.
     try {
         if (config['basic']['storage'] == 'mysql') {
             connection.query(`INSERT INTO messageLog(content,user,guild,nickname,time) VALUES("${connection.escape(msg)}","${connection.escape(message.member.id)}","${connection.escape(message.guild.id)}","${connection.escape(message.member.displayName)}","${connection.escape(new Date())}");`, function(error, results, fields) {
@@ -42,8 +85,8 @@ client.on('message', (message) => {
                 console.log(msg);
             });
         } else if (config['basic']['storage'] == 'local') {
-            fs.open(config['local']['messageLog'], () => {
-                fs.appendFile(config['local']['messageLog'], `[${message.member.displayName}]: ${message.content}\n\n`);
+            fs.open(config['local']['Logs'] + "/" + config['local']['messageLog'], 'w+', () => {
+                fs.appendFileSync(config['local']['Logs'] + "/" + config['local']['messageLog'], `[${message.member.displayName}]: ${message.content}\n\n`);
             });
         }
 
@@ -53,7 +96,7 @@ client.on('message', (message) => {
 });
 
 client.on('messageReactionAdd', (message, user) => {
-    if (message.emoji.name == "🚫") {
+    if (message.emoji.name == "ðŸš«") {
         if (message.message.author.bot) {
             message.message.delete();
         }
@@ -71,8 +114,8 @@ function getUserPrefix(user){
                 }
             });
         } else if (config['basic']['storage'] == 'local') {
-            var userSettings = JSON.parse(`${fs.readFileSync(config['local']['userSettings'])}/${user.id}`);
-            var serverSettings = JSON.parse(`${fs.readFileSync(config['local']['serverSettings'])}/${user.guild.id}`);
+            var userSettings = JSON.parse(fs.readFileSync(`${config['local']['userSettings']}/${user.id}.json`));
+            var serverSettings = JSON.parse(fs.readFileSync(`${config['local']['serverSettings']}/${user.guild.id}.json`));
 
             if (userSettings["prefix"] != undefined) {
                 var userPrefix = userSettings["prefix"];
@@ -196,8 +239,8 @@ function checkCommand(mess, message, user, other = null, other2 = null) {
 
                 });
             } else if (config['basic']['storage'] == 'local') {
-                fs.open(config['local']['errorLog'], () => {
-                    fs.appendFile(config['local']['errorLog'], `${e}`);
+                fs.open(config['local']['Logs'] + "/" + config['local']['errorLog'], 'w+', () => {
+                    fs.appendFileSync(config['local']['Logs'] + "/" + config['local']['errorLog'], `${e}`);
                 });
             }
         } catch (e) {
@@ -210,10 +253,10 @@ function checkCommand(mess, message, user, other = null, other2 = null) {
 
 function canBypassPermissions(user) {
     // Get the JSON with all the owners.
-    var ownersJSON = JSON.parse(fs.readFileSync('Config/owners.json'));
+    var userSettings = JSON.parse(fs.readFileSync(`${config['local']['userSettings']}/${user.id}`));
 
     // Check if you are in it.
-    if (ownersJSON[user] != undefined && ownersJSON[user] == true) {
+    if (userSettings['canBypassPermissions'] != undefined && userSettings['canBypassPermissions'] == true) {
         return true;
     } else {
         return false;
