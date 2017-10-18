@@ -17,8 +17,6 @@
 	    "errorLog" : "database/Logs/errorLog.txt",
 	    "commandLog" : "database/Logs/commandLog.txt",
 	    "userSettings" : "database/Users/",
-            "serverSettings" : "database/Servers/",
-	    "whitelist" : "database/Whitelist/",
-	    "blacklist" : "database/Blacklist/"
+            "serverSettings" : "database/Servers/"
 	}
 }
