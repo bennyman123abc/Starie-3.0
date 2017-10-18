@@ -1,5 +1,5 @@
 //permission: Everyone;
-//usage: <text>
+//usage: <text>;
 if (args.length != 1){
     message.reply("Only 1 argument is allowed!")
 }
