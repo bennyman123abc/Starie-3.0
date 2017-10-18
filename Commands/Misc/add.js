@@ -1,5 +1,5 @@
-//permission: Everyone
-//usage: <number> | <number>
+//permission: Everyone;
+//usage: <number> | <number>;
 if (args.length != 2){
     message.reply("2 arguments are required!");
 }
