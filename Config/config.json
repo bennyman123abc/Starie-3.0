@@ -10,7 +10,7 @@
 	    "username" : "USERNAME",
 	    "password" : "PASSWORD",
 	    "database" : "Starie"
-	}
+	},
 
     "Local" : {
 	    "messageLog" : "database/Logs/messageLog.txt",
