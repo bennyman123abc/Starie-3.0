@@ -13,10 +13,11 @@
 	},
 
     "local" : {
-	    "messageLog" : "database/Logs/messageLog.txt",
-	    "errorLog" : "database/Logs/errorLog.txt",
-	    "commandLog" : "database/Logs/commandLog.txt",
-	    "userSettings" : "database/Users/",
-            "serverSettings" : "database/Servers/"
+	    "Logs" : "database/Logs",
+	    "messageLog" : "messageLog.txt",
+	    "errorLog" : "errorLog.txt",
+	    "commandLog" : "commandLog.txt",
+	    "userSettings" : "database/Users",
+            "serverSettings" : "database/Servers"
 	}
 }
