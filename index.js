@@ -27,11 +27,11 @@ client.on('message', (message) => {
 
     if (message.author.bot) return;
 
-    var prefix = getUserPrefix(message.author.id, message.guild.id);
+    var prefix = getUserPrefix(message.member);
     console.log(prefix);
 
     if (msgLow.startsWith(prefix)) {
-        var cmd = trimPrefix(msg, message.author.id, message.guild.id);
+        var cmd = trimPrefix(msg, message.member);
         checkCommand(cmd, message, message.author);
     }
 
@@ -60,27 +60,25 @@ client.on('messageReactionAdd', (message, user) => {
     }
 });
 
-function getUserPrefix(userID, guildID) {
+function getUserPrefix(user){
     var prefix = null;
 
     try {
         if (config['basic']['storage'] == 'mysql') {
-            connection.query(`SELECT prefix FROM userPrefixes WHERE user="${connection.escape(userID)}"`, function(error, results, fields) {
+            connection.query(`SELECT prefix FROM userPrefixes WHERE user="${connection.escape(user.id)}"`, function(error, results, fields) {
                 if (results.length > 0) {
                     prefix = results[0].prefix;
                 }
             });
         } else if (config['basic']['storage'] == 'local') {
-            var prefixList = fs.readFileSync(config['local']['userSettings']);
-            prefixList = JSON.parse(prefixList);
-            var userPrefixes = prefixList["users"];
-            var serverPrefixes = prefixList["servers"];
+            var userSettings = JSON.parse(`${fs.readFileSync(config['local']['userSettings'])}/${user.id}`);
+            var serverSettings = JSON.parse(`${fs.readFileSync(config['local']['serverSettings'])}/${user.guild.id}`);
 
-            if (userPrefixes[userID] != undefined) {
-                var userPrefix = prefixList["users"][userID];
+            if (userSettings["prefix"] != undefined) {
+                var userPrefix = userSettings["prefix"];
                 return userPrefix;
-            } else if (serverPrefixes[guild] != undefined) {
-                var serverPrefix = prefixList["servers"][guild];
+            } else if (serverSettings["prefix"] != undefined) {
+                var serverPrefix = serverSettings["prefix"];
                 return serverPrefix;
             } else {
                 return defaultPrefix;
@@ -93,7 +91,7 @@ function getUserPrefix(userID, guildID) {
     if (prefix == undefined) {
         try {
             if (config['basic']['storage'] == 'mysql') {
-                connection.query(`SELECT prefix FROM serverSettings WHERE guildID="${connection.escape(guildID)}"`, function(error, results, fields) {
+                connection.query(`SELECT prefix FROM serverSettings WHERE guildID="${connection.escape(user.guild.id)}"`, function(error, results, fields) {
                     if (results.length) {
                         prefix = results[0].prefix;
                     }
@@ -113,9 +111,9 @@ function getUserPrefix(userID, guildID) {
 }
 
 // Trim the prefix from the message.
-function trimPrefix(message, user, guild) {
+function trimPrefix(message, user) {
     // Get the user's prefix.
-    var prefix = getUserPrefix(user, guild);
+    var prefix = getUserPrefix(user);
 
     // Return the trimmed version.
     return message.slice(prefix.length, message.length);
