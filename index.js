@@ -6,8 +6,6 @@ const em = inter.getInterface();
 const config = JSON.parse(fs.readFileSync('./Config/config.json'));
 console.log(JSON.stringify(config));
 const mysql = require('mysql');
-const messagelog = 'Logs/messagelog.txt';
-const errorlog = 'Logs/errorlog.txt';
 if (config['basic']['storage'] == 'mysql') {
     var connection = mysql.createConnection({
         host: config['mySQL']['host'],
@@ -44,8 +42,8 @@ client.on('message', (message) => {
                 console.log(msg);
             });
         } else if (config['basic']['storage'] == 'local') {
-            fs.open(messagelog, () => {
-                fs.appendFile(messagelog, `[${message.member.displayName}]: ${message.content}\n\n`);
+            fs.open(config['local']['messageLog'], () => {
+                fs.appendFile(config['local']['messageLog'], `[${message.member.displayName}]: ${message.content}\n\n`);
             });
         }
 
@@ -73,7 +71,7 @@ function getUserPrefix(userID, guildID) {
                 }
             });
         } else if (config['basic']['storage'] == 'local') {
-            var prefixList = fs.readFileSync(prefixes);
+            var prefixList = fs.readFileSync(config['local']['userSettings']);
             prefixList = JSON.parse(prefixList);
             var userPrefixes = prefixList["users"];
             var serverPrefixes = prefixList["servers"];
@@ -200,8 +198,8 @@ function checkCommand(mess, message, user, other = null, other2 = null) {
 
                 });
             } else if (config['basic']['storage'] == 'local') {
-                fs.open(errorlog, () => {
-                    fs.appendFile(errorlog, `${e}`);
+                fs.open(config['local']['errorLog'], () => {
+                    fs.appendFile(config['local']['errorLog'], `${e}`);
                 });
             }
         } catch (e) {
