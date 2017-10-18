@@ -12,7 +12,7 @@
 	    "database" : "Starie"
 	},
 
-    "Local" : {
+    "local" : {
 	    "messageLog" : "database/Logs/messageLog.txt",
 	    "errorLog" : "database/Logs/errorLog.txt",
 	    "commandLog" : "database/Logs/commandLog.txt",
