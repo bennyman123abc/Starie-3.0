@@ -1,14 +1,14 @@
 {
     "basic" : {
-	    "token" : "MzY5NDkwMTk5NTg5MTU4OTEy.DMZSFA.FMiKcUsVspYskH-IXmy5mlL4b1s",
+	    "token" : "TOKEN_GOES_HERE",
 		"game" : "with the building blocks of life.",
 		"storage" : "mysql"
 	},
 	
     "mySQL" : {
 	    "host" : "localhost",
-		"username" : "webServer",
-		"password" : "Killerfi1",
+		"username" : "username",
+		"password" : "password",
 		"database" : "Starie"
 	}
 }
