@@ -130,7 +130,7 @@ function checkCommand(mess, message, user, other = null, other2 = null) {
     // Check if the message contains a colon.
     if (mess.toLowerCase().indexOf(':') != -1) {
         // If it does, it cut at the colon.
-        var command = mess.toLowerCase().slice(0, mess.toLowerCase().indexOf(':') - 1);
+        var command = mess.toLowerCase().slice(0, mess.toLowerCase().indexOf(':'));
     } else {
         // If not, copy the entire message.
         var command = mess;
