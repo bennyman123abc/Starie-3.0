@@ -7,7 +7,7 @@ if (args.length != 1){
 }
 else{
     // Reply the text.
-    message.reply(args.join().replace(","," "));
+    message.reply(args[0]);
     
     // Delete the previous message.
     message.delete();
