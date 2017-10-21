@@ -1,25 +1,23 @@
 //permission: Everyone;
 //usage: <number> | <number>;
-if (args.length != 2){
+if (args.length != 2) {
     message.reply("2 arguments are required!");
 }
-else{
+else {
     // Num1
-    try{
+    try {
         var num1 = parseFloat(args[0]);
     }
-    catch{
+    catch(e) {
         message.reply(args[0] + " is not a valid number!");
-        return;
     }
 
     // Num2
-    try{
+    try {
         var num2 = parseFloat(args[1]);
     }
-    catch{
+    catch(e) {
         message.reply(args[1] + " is not a valid number!");
-        return;
     }
 
     // Add
