@@ -1,0 +1,12 @@
+//permission: Everyone;
+//usage: None;
+var userSettings = JSON.parse(fs.readFileSync(`${config['local']['userSettings']}/${message.author.id}.json`));
+var emb = new Discord.RichEmbed();
+emb.setTitle(message.author.username, message.author.avatarURL);
+emb.addField("Whitelisted", userSettings['Whitelisted']);
+emb.addField("Blacklisted", userSettings['Blacklisted'], true);
+emb.addField("Prefix", userSettings['Prefix']);
+emb.addField("Owner", userSettings['Owner']);
+emb.addField("Can Bypass Permissions", userSettings['canBypassPermissions']);
+emb.setFooter("Information searcher");
+message.channel.send({ embed: emb });
