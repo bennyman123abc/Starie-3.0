@@ -26,6 +26,7 @@ rl.question('Input the ID of the user whom you want to be owner:\n', (answer) =>
 					fs.writeFileSync("././Config/config.json", JSON.stringify(conf));
 					console.log(`Set start up status message to ${answer}.`);
 					console.log("Starie set up complete, please restart the application for changes to show up!");
+					fs.unlinkSync("././Commands/Administration/install.js");
 					fs.unlinkSync("././Install/installer.js")
 					fs.rmdirSync("././Install");
 				});
