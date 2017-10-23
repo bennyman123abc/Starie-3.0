@@ -61,7 +61,7 @@ if (config['basic']['storage'] == 'local')
 // Fired when the bot starts up.
 client.on('ready', () => {
     console.log(`Started up as user ${client.user.username}!`);
-    client.user.setGame(config['local']['game']);
+    client.user.setGame(config['basic']['game']);
 	
     // Check if it doesn't exist.
     if (fs.existsSync('Install'))
