@@ -11,11 +11,11 @@ while (loop) {
     rl.question('Input the ID of the user whom you want to be owner:\n', (answer) => {
         if (answer.length == 18)
         {
-            fs.open(`../../database/Users/${answer}.json`, 'w', () => {
-                fs.writeFileSync(`../../database/Users/${answer}.json`, '{"Whitelisted" : true, "Blacklisted" : false, "Permissions" : ["Alpha","Beta"], "Prefix" : "?", "Owner" : true, "canBypassPermissions" : true}');
+            fs.open(`../../database/Users/${answer}.json`, 'w+', () => {
+                fs.writeFileSync(`././database/Users/${answer}.json`, '{"Whitelisted" : true, "Blacklisted" : false, "Permissions" : ["Alpha","Beta"], "Prefix" : "?", "Owner" : true, "canBypassPermissions" : true}');
             });
                     
-	          console.log("Set the Super Owner to " + answer);
+	          console.log(`Set the Super Owner to ${answer}.`);
         }
         else
         {
@@ -35,7 +35,7 @@ while (loop)
         {
             var conf = JSON.parse(fs.readFileSync("../../Config/config.json"));
             conf['basic']['defaultPrefix'] = answer;
-            fs.writeFileSync("../../Config/config.json", JSON.stringify(conf));
+            fs.writeFileSync("././Config/config.json", JSON.stringify(conf));
         }
         else
         {
