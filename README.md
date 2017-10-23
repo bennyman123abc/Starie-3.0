@@ -17,7 +17,7 @@ I will probably program an automatic mySQL setup, but for now you can find the m
 ## Owners file (Legacy).
 The owner file is stored in "Config/owners.json", there you can add owners to the list.
 
-```js
+```json
 {
     "OWNER_ID" : true,
     "OWNER_ID" : false
