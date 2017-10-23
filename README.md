@@ -1,6 +1,10 @@
 # Starie-3.0
 Matthe815's semi-famous starie now has her source code open source. But there's some things you must know.
 
+## Setup
+After downloading the file, open up your Command prompt(Windows) or Shell (Linux) with Node.JS (latest) installed.
+And type `npm install`. Then run `node index` (Windows) or `npm start` (Linux). To start Starie. You will then be prompted to install Starie. Just follow her instructions on the console to install her.
+
 ## Commands
 All of her commands are stored in the "Commands" directory, the commands can use any variables from the main file and anything sent to the command handler. If you want to add a command, it will be automatically processed and added to the help list.
 
