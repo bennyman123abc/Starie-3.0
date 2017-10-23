@@ -32,7 +32,16 @@ var defaultPrefix = "!";
 // Create the default directories if they don't exist & only in local mode.
 if (config['basic']['storage'] == 'local')
 {
-	// Check if it doesn't exist.
+    // Check if it doesn't exist.
+    if (fs.existsSync('Install'))
+	{
+	    // Make sure installer.js is there.
+	    if (fs.existsSync("Install/installer.js"))
+	    {
+	        console.log("Installation required, please use the command !install to start the installation process.");    
+	    }
+	}
+    // Check if it doesn't exist.
     if (!fs.existsSync('database'))
 	{
 	    // Create it if it doesn't.
