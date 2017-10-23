@@ -2,6 +2,7 @@
     "basic" : {
 	    "token" : "TOKEN",
 	    "game" : "with the building blocks of life.",
+	    "defaultPrefix" : "!",
             "storage" : "local"
 	},
 	
