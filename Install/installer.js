@@ -33,9 +33,10 @@ while (loop)
     rl.question("Input a default prefix.", (answer) => {
         if (answer.length > 0 || answer.length < 3)
         {
-            var conf = JSON.parse(fs.readFileSync("../../Config/config.json"));
+            var conf = JSON.parse(fs.readFileSync("././Config/config.json"));
             conf['basic']['defaultPrefix'] = answer;
             fs.writeFileSync("././Config/config.json", JSON.stringify(conf));
+			console.log(`Set default prefix to ${answer}.`);
         }
         else
         {
@@ -50,8 +51,9 @@ while (loop)
 {
     loop = false;
     rl.question("Input a startup status message.", (answer) => {
-        var conf = JSON.parse(fs.readFileSync("../../Config/config.json"));
+        var conf = JSON.parse(fs.readFileSync("././Config/config.json"));
         conf['basic']['game'] = answer;
-        fs.writeFileSync("../../Config/config.json", JSON.stringify(conf));
+        fs.writeFileSync("././Config/config.json", JSON.stringify(conf));
+		console.log(`Set start up status message to ${answer}.`);
     })
 }
