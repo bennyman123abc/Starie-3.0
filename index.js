@@ -27,20 +27,11 @@ if (config['basic']['storage'] == 'mysql') {
 }
 
 // Default prefix for when the user & server doesn't have one.
-var defaultPrefix = "!";
+var defaultPrefix = config['basic']['defaultPrefix'];
 
 // Create the default directories if they don't exist & only in local mode.
 if (config['basic']['storage'] == 'local')
 {
-    // Check if it doesn't exist.
-    if (fs.existsSync('Install'))
-	{
-	    // Make sure installer.js is there.
-	    if (fs.existsSync("Install/installer.js"))
-	    {
-	        console.log("Installation required, please use the command !install to start the installation process.");    
-	    }
-	}
     // Check if it doesn't exist.
     if (!fs.existsSync('database'))
 	{
@@ -71,6 +62,16 @@ if (config['basic']['storage'] == 'local')
 client.on('ready', () => {
     console.log(`Started up as user ${client.user.username}!`);
     client.user.setGame(config['local']['game']);
+	
+    // Check if it doesn't exist.
+    if (fs.existsSync('Install'))
+    {
+	// Make sure installer.js is there.
+	if (fs.existsSync("Install/installer.js"))
+	{
+	    console.log("Installation required, please use the command !install to start the installation process.");    
+	}
+    }
 });
 
 // Fired when a message is posted.
