@@ -27,7 +27,7 @@ The owner file is stored in "Config/owners.json", there you can add owners to th
 Depending on the setting there, you can choose whether or not you want the user to be able to bypass permissions.
 If that is false, they will be listed as an owner, but will not be able to bypass permissions.
 
-# User Information (Local Storage).
+## User Information (Local Storage).
 All information about a user is stored in the User's Information: "database/Users/userID.json", it is automatically created when the user first speaks in chat. If you open it up, you'll find...
 
 ```json
