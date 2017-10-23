@@ -14,7 +14,7 @@ Most of Starie 3.0's information is stored within a mySQL database. However, her
 ## mySQL.
 I will probably program an automatic mySQL setup, but for now you can find the mySQL queries required in the config directory under "mySQL.sql".
 
-## Owners.
+## Owners file (Legacy).
 The owner file is stored in "Config/owners.json", there you can add owners to the list.
 
 ```js
@@ -26,6 +26,17 @@ The owner file is stored in "Config/owners.json", there you can add owners to th
 
 Depending on the setting there, you can choose whether or not you want the user to be able to bypass permissions.
 If that is false, they will be listed as an owner, but will not be able to bypass permissions.
+
+# User Information (Local Storage).
+All information about a user is stored in the User's Information: "database/Users/userID.json", it is automatically created when the user first speaks in chat. If you open it up, you'll find...
+
+```json
+{"Whitelisted" : false, "Blacklisted" : false, "Permissions" : [], "Prefix" : "!", "Owner" : false, "canBypassPermissions" : false}
+```
+
+This can be modified manually whenever. But in order to not break anything, you should use the built in commands.
+
+If Owner is true, then the user will show up as an owner, and will be able to perform Owner Only commands. However, if "canBypassPermissions" is true, then they can use any command -- regardless of permission level.
 
 ## My Interface.
 Starie 3.0 comes with My Interface installed but not configured. You can find the documentation here:
