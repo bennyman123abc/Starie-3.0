@@ -1,0 +1,21 @@
+{
+    "INFORMATIONAL" : {
+	      "name" : "Informational", 
+		    "allowed" : true
+	}, 
+	
+	"AUTO_MODERATION" : {
+	     "name" : "Auto Moderation", 
+	     "allowed" : false
+	}, 
+	
+	"GLOBAL_ECONOMY" : {
+	    "name" : "Global Economy",
+	    "allowed" : false
+	},
+	
+	"FUN" : {
+	    "name" : "Fun",
+		  "allowed" : true
+	}
+}
