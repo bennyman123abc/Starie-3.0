@@ -1,5 +1,6 @@
 //permission: Everyone;
 //usage: <text>;
+//module: FUN;
 // Check how many arguments exist.
 if (args.length != 1){
     // If there's less than or more than 1, stop it.
