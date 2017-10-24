@@ -1,6 +1,6 @@
 //permission: Everyone;
 //usage: <number> | <number>;
-
+//module: FUN;
 // If there isn't 2 arguments, error.
 if (args.length != 2) {
     message.reply("2 arguments are required!");
