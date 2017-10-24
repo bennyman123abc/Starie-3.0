@@ -1,5 +1,6 @@
 //permission: Everyone;
 //usage: None;
+//module: INFORMATIONAL;
 var userSettings = JSON.parse(fs.readFileSync(`${config['local']['userSettings']}/${message.author.id}.json`));
 var emb = new Discord.RichEmbed();
 emb.setTitle(message.author.username, message.author.avatarURL);
