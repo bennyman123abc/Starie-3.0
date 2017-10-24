@@ -6,8 +6,12 @@ const client = new Discord.Client();
 const fs = require('fs');
 
 // Require the My Interface module, and initalize it.
-const inter = require('my-interface');
-const em = inter.getInterface();
+// Make sure it is installed first.
+if (!fs.existsSync('Install'))
+{
+    const inter = require('my-interface');
+    const em = inter.getInterface();
+}
 
 // Get the configuration file & log the stringified version.
 const config = JSON.parse(fs.readFileSync('./Config/config.json'));
@@ -87,14 +91,24 @@ client.on('message', (message) => {
     var prefix = getUserPrefix(message.member);
     console.log(prefix);
 
+	// Quickly create the server config when someone posts a message in a new server.
+    if (!fs.existsSync(`${config['local']['serverSettings']}/${message.guild.id}.json`))
+    {
+		// Open the user's file (create it if it doesn't exist, error if it does).
+		fs.open(`${config['local']['serverSettings']}/${message.guild.id}.json`, 'wx', () => {
+			// And write the default information to it.
+			fs.writeFileSync(`${config['local']['userSettings']}/${message.author.id}.json`, `{"premium" : false, "verified" : false, "blacklisted" : false, "prefix" : "?", "modules" : {}, "bank" : 0, "economy" : {}}`);
+		});
+    }
+	
     // Quickly create the user config when someone new posts a message.
     if (!fs.existsSync(`${config['local']['userSettings']}/${message.author.id}.json`))
     {
-	// Open the user's file (create it if it doesn't exist, error if it does).
-	fs.open(`${config['local']['userSettings']}/${message.author.id}.json`, 'wx', () => {
-	    // And write the default information to it.
-	    fs.writeFileSync(`${config['local']['userSettings']}/${message.author.id}.json`, `{"Whitelisted" : false, "Blacklisted" : false, "Permissions" : [], "Prefix" : "!", "Owner" : false, "canBypassPermissions" : false}`);
-	});
+		// Open the user's file (create it if it doesn't exist, error if it does).
+		fs.open(`${config['local']['userSettings']}/${message.author.id}.json`, 'wx', () => {
+			// And write the default information to it.
+			fs.writeFileSync(`${config['local']['userSettings']}/${message.author.id}.json`, `{"Whitelisted" : false, "Blacklisted" : false, "Permissions" : [], "Prefix" : "!", "Owner" : false, "canBypassPermissions" : false}`);
+		});
     }
 	
     // If a message starts with the prefix, check the command.
@@ -198,7 +212,10 @@ function trimPrefix(message, user) {
 
 function checkCommand(mess, message, user, other = null, other2 = null) {
     // Log the message.
-    console.log(mess)
+    console.log(mess);
+	
+	// Obtain the user's prefix.
+	var prefix = getUserPrefix(message.member);
 
     // Check if the message contains a colon.
     if (mess.toLowerCase().indexOf(':') != -1) {
@@ -210,13 +227,26 @@ function checkCommand(mess, message, user, other = null, other2 = null) {
     }
 
     // Collect all the arguments into a string.
-    var arguments = mess.slice(mess.toLowerCase().indexOf(':') + 2, mess.toLowerCase().length);
-
+	if (mess.toLowerCase().indexOf(':') != -1)
+	{
+        var arguments = mess.slice(mess.toLowerCase().indexOf(':') + 2, mess.toLowerCase().length);
+    }
+	else
+	{
+	    var arguments = null;
+	}
+	
     // Convert it into an array.
-    var args = arguments.split(" | ");
+	if (arguments != null)
+	{
+        var args = arguments.split(" | ");
+	}
+	else
+	{
+	    args = null;
+	}
 
     // Then log both the command and the number of arguments.
-    console.log(args.length)
     console.log(command);
 
     // Try/Catch the contents.
@@ -254,12 +284,23 @@ function checkCommand(mess, message, user, other = null, other2 = null) {
 
     try {
         // Run the command within the file.
+		var conString = String(fs.readFileSync(`${config['local']['serverSettings']}/${message.guild.id}.json`));
+		var con = JSON.parse(conString);
+		var module = contents.slice(contents.indexOf(':', contents.search('//module:')+8)+2, contents.indexOf(';', contents.search('//module:')+8));
+		console.log(module);
+		console.log(contents.search('//module:'));
+		if (con['modules'][module] != undefined && con['modules'][module] == true || contents.search('//module:') == -1)
+		{
         eval(contents)
+		}
+		else
+		{
+		    message.reply(`The ${module} module hasn't been enabled! Do so with ${prefix}enmod: ${module}!`);
+		}
 
         // And log the use of the command.
         if (config['basic']['storage'] == 'mysql') {
             connection.query(`INSERT INTO commandLog(commandName,user,guild,nickname,time) VALUES("${connection.escape(command)}", "${connection.escape(user.id)}", "${connection.escape(message.guild.id)}", "${connection.escape(message.member.displayName)}", "${connection.escape(new Date())}");`, function(error, results, fields) {
-
                 if (error) throw error;
             });
         }
@@ -283,6 +324,32 @@ function checkCommand(mess, message, user, other = null, other2 = null) {
 
         console.log(e)
     }
+}
+
+function moduleEnabled(fileString, server)
+{
+    // Set the variable, and make sure it's a string.
+    var con = String(fileString);
+	
+	// Check if it includes the 'module' variable.
+	if (con.includes("//module:"))
+	{
+	    var module = con.slice(con.indexOf(":", con.search("//module:")+8)+2, con.indexOf(";",con.search("//module")));
+		
+		console.log(String(server["modules"][module]));
+		if (server["modules"][module] != undefined || server["modules"][module] == true)
+		{
+		    return true;
+		}
+		else
+		{
+		    return false;
+		}
+	}
+	else
+    {
+	    return true;
+	}
 }
 
 function canBypassPermissions(user) {
