@@ -1,7 +1,7 @@
 {
-    "INFORMATIONAL" : {
+        "INFORMATIONAL" : {
 	      "name" : "Informational", 
-		    "allowed" : true
+	      "allowed" : true
 	}, 
 	
 	"AUTO_MODERATION" : {
@@ -11,11 +11,11 @@
 	
 	"GLOBAL_ECONOMY" : {
 	    "name" : "Global Economy",
-	    "allowed" : false
+	    "allowed" : true
 	},
 	
 	"FUN" : {
 	    "name" : "Fun",
-		  "allowed" : true
+            "allowed" : true
 	}
 }
