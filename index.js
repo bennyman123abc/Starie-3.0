@@ -97,7 +97,7 @@ client.on('message', (message) => {
 		// Open the user's file (create it if it doesn't exist, error if it does).
 		fs.open(`${config['local']['serverSettings']}/${message.guild.id}.json`, 'wx', () => {
 			// And write the default information to it.
-			fs.writeFileSync(`${config['local']['userSettings']}/${message.author.id}.json`, `{"prefix" : "?", "modules" : {}, "bank" : 0, "economy" : {}}`);
+			fs.writeFileSync(`${config['local']['userSettings']}/${message.author.id}.json`, `{"prefix" : "?", "modules" : {}}`);
 		});
     }
 	
@@ -107,7 +107,7 @@ client.on('message', (message) => {
 		// Open the user's file (create it if it doesn't exist, error if it does).
 		fs.open(`${config['local']['userSettings']}/${message.author.id}.json`, 'wx', () => {
 			// And write the default information to it.
-			fs.writeFileSync(`${config['local']['userSettings']}/${message.author.id}.json`, `{"Whitelisted" : false, "Blacklisted" : false, "Permissions" : [], "Prefix" : "!", "Owner" : false, "canBypassPermissions" : false}`);
+			fs.writeFileSync(`${config['local']['userSettings']}/${message.author.id}.json`, `{"Whitelisted" : false, "Blacklisted" : false, "Permissions" : [], "Prefix" : "!", "Owner" : false, "canBypassPermissions" : false, "money" : 0}`);
 		});
     }
 	
