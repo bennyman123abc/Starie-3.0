@@ -3,7 +3,8 @@
 //module: FUN;
 // If there isn't 2 arguments, error.
 if (args.length != 2) {
-    message.reply("2 arguments are required!");
+    message.reply(errorStrings["commands"]["arguments"]);
+    return;
 }
 else {
     // Parse number 1.

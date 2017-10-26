@@ -1,0 +1,9 @@
+{
+    "modules" : {
+        "globalEconomy" : "The module ```GLOBAL_ECONOMY``` is not enabled!"
+    },
+
+    "commands" : {
+        "arguments" : "The correct number of arguments were not specified."
+    }
+}
