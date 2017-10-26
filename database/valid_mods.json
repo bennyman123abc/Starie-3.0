@@ -1,21 +1,39 @@
 {
-        "INFORMATIONAL" : {
-	      "name" : "Informational", 
-	      "allowed" : true
+    "INFORMATIONAL" : {
+	    "name" : "Informational", 
+	    "allowed" : true
 	}, 
 	
 	"AUTO_MODERATION" : {
-	     "name" : "Auto Moderation", 
-	     "allowed" : false
+	    "name" : "Auto Moderation", 
+	    "allowed" : false
 	}, 
+	
+	"CHANNEL_LOCK" : {
+	    "name" : "Channel Lock",
+	    "allowed" : false
+	},
+	
+	"ECONOMY" : {
+	    "name" : "Economy",
+	    "allowed" : true,
+	    "dependencies" : "GLOBAL_ECONOMY"
+	},
+	
+	"LOCAL_ECONOMY" : {
+	    "name" : "Local Economy",
+	    "allowed" : true,
+	    "overrides" : "GLOBAL_ECONOMY"
+	},
 	
 	"GLOBAL_ECONOMY" : {
 	    "name" : "Global Economy",
-	    "allowed" : true
+	    "allowed" : true,
+	    "overrides" : "LOCAL_ECONOMY"
 	},
 	
 	"FUN" : {
 	    "name" : "Fun",
-            "allowed" : true
+	    "allowed" : true
 	}
 }
