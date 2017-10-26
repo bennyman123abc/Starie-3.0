@@ -1,14 +1,24 @@
 {
     "basic" : {
 	    "token" : "TOKEN",
-		"game" : "with the building blocks of life.",
-		"storage" : "local"
+	    "game" : "with the building blocks of life.",
+	    "defaultPrefix" : "!",
+            "storage" : "local"
 	},
 	
     "mySQL" : {
 	    "host" : "localhost",
-		"username" : "USERNAME",
-		"password" : "PASSWORD",
-		"database" : "Starie"
+	    "username" : "USERNAME",
+	    "password" : "PASSWORD",
+	    "database" : "Starie"
+	},
+
+    "local" : {
+	    "Logs" : "database/Logs",
+	    "messageLog" : "messageLog.txt",
+	    "errorLog" : "errorLog.txt",
+	    "commandLog" : "commandLog.txt",
+	    "userSettings" : "database/Users",
+            "serverSettings" : "database/Servers"
 	}
 }

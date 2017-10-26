@@ -1,28 +1,28 @@
-//permission: Everyone
-//usage: <number> | <number>
-if (args.length != 2){
+//permission: Everyone;
+//usage: <number> | <number>;
+//module: FUN;
+// If there isn't 2 arguments, error.
+if (args.length != 2) {
     message.reply("2 arguments are required!");
 }
-else{
-    // Num1
-    try{
+else {
+    // Parse number 1.
+    try {
         var num1 = parseFloat(args[0]);
     }
-    catch{
+    catch(e) {
         message.reply(args[0] + " is not a valid number!");
-        return;
     }
 
-    // Num2
-    try{
+    // Parse number 2.
+    try {
         var num2 = parseFloat(args[1]);
     }
-    catch{
+    catch(e) {
         message.reply(args[1] + " is not a valid number!");
-        return;
     }
 
-    // Add
+    // Add it and post it.
     var num3 = num1 + num2;
     message.reply(String(num3));
 }
