@@ -17,6 +17,9 @@ if (!fs.existsSync('Install'))
 const config = JSON.parse(fs.readFileSync('./Config/config.json'));
 console.log(JSON.stringify(config));
 
+// Get errorStrings file
+const errorStrings = JSON.parse(fs.readFileSync('./Config/errorStrings.json'));
+
 // Require the mySQL module.
 const mysql = require('mysql');
 

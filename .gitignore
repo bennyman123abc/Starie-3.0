@@ -15,3 +15,4 @@ Config/
 *.ntvs*
 *.njsproj
 *.sln
+Config/config.json
