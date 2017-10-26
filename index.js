@@ -17,6 +17,16 @@ if (!fs.existsSync('Install'))
 const config = JSON.parse(fs.readFileSync('./Config/config.json'));
 console.log(JSON.stringify(config));
 
+// Get the economy data file (This may end up being in the MySQL database)
+try {
+    const eco = JSON.parse(fs.readFileSync('./Config/economy.json'));
+    console.log("Economy loaded successfully!");
+}
+
+catch {
+    console.log("Economy loading failed! Does the economy file exist?");
+}
+
 // Require the mySQL module.
 const mysql = require('mysql');
 
