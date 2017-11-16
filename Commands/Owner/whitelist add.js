@@ -2,10 +2,10 @@
 //usage: <userResolve>;
 
 // Make sure you're an owner.
-if (isOwner(message.author.id))
+if (isOwner(message.author))
 {
     // User Resolve
-	var userResolvable = getUserResolvable(args[0], message.guild.id);
+	var userResolvable = getUserResolvable(args[0], message.guild.id, message);
 	
     // Get the user information file.
 	var user = JSON.parse(String(fs.readFileSync(`./././${config["local"]["userSettings"]}/${userResolvable.id}.json`)));
@@ -17,7 +17,10 @@ if (isOwner(message.author.id))
 		user["whitelisted"] = true;
 		
 		// Write to file.
-		fs.writeFileSync(`./././${config["local"]["userSettings"]}/${userResolvable.id}.json`);
+		fs.writeFileSync(`./././${config["local"]["userSettings"]}/${userResolvable.id}.json`, JSON.stringify(user));
+		
+		// Display a message.
+		message.reply(`Successfully whitelisted \`${userResolvable.tag}\``);
 	}
 	else
 	{
