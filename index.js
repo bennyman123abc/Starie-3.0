@@ -5,6 +5,9 @@ const client = new Discord.Client();
 // Require the FS module.
 const fs = require('fs');
 
+// Implement a throttle.
+const thr = {};
+
 // Require the My Interface module, and initalize it.
 // Make sure it is installed first.
 if (!fs.existsSync('Install'))
@@ -225,8 +228,20 @@ function checkCommand(mess, message, user, other = null, other2 = null) {
         // If it does, it cut at the colon.
         var command = mess.toLowerCase().slice(0, mess.toLowerCase().indexOf(':'));
     } else {
-        // If not, copy the entire message.
-        var command = mess;
+        // Split by spaces and add a colon on the very first array item.
+		var arguments = mess.split(" ");
+		if (arguments.length > 1)
+		{
+		    arguments[0] = arguments[0] + ":";
+            var mess = arguments.join(" ").replace(/,/g, " ");
+			
+			// It cut at the colon.
+			var command = mess.toLowerCase().slice(0, mess.toLowerCase().indexOf(':'));
+		}
+		else
+		{
+		    var command = mess;
+		}
     }
 
     // Collect all the arguments into a string.
@@ -289,16 +304,33 @@ function checkCommand(mess, message, user, other = null, other2 = null) {
         // Run the command within the file.
 		var conString = String(fs.readFileSync(`${config['local']['serverSettings']}/${message.guild.id}.json`));
 		var con = JSON.parse(conString);
+		var moduleList = JSON.parse(String(fs.readFileSync("database/valid_mods.json")));
 		var module = contents.slice(contents.indexOf(':', contents.search('//module:')+8)+2, contents.indexOf(';', contents.search('//module:')+8));
 		console.log(module);
 		console.log(contents.search('//module:'));
 		if (con['modules'][module] != undefined && con['modules'][module] == true || contents.search('//module:') == -1)
 		{
-        eval(contents)
+		    if (!isBlacklisted(message.author) && thr[message.author.id] == undefined || !isBlacklisted(message.author) && thr[message.author.id] == false) {
+                eval(contents)
+				
+				if (isWhitelisted(message.author)) { 
+				
+				thr[message.author.id] = true;
+				console.log("Throttled" + message.author.username);
+				
+					setTimeout(() => {
+						thr[message.author.id] = false;
+						console.log("Unthrottling " + message.author.username);
+					}, 10000);
+				}
+			}
+			else if (thr[message.author.id] == true) {
+				message.reply("You've been throttled! Please wait before using a command again.");
+			}
 		}
 		else
 		{
-		    message.reply(`The ${module} module hasn't been enabled! Do so with ${prefix}enmod: ${module}!`);
+		    message.reply(`The ${moduleList[module]["name"]} module hasn't been enabled! Do so with ${prefix}enmod: ${moduleList[module]["name"]}!`);
 		}
 
         // And log the use of the command.
@@ -307,6 +339,11 @@ function checkCommand(mess, message, user, other = null, other2 = null) {
                 if (error) throw error;
             });
         }
+		else if (config['basic']['storage'] == 'local') {
+		    fs.open(config['local']['Logs'] + "/" + config['local']['commandLog'], 'a+', () => {
+                    fs.appendFileSync(config['local']['Logs'] + "/" + config['local']['commandLog'], `[${message.member.displayName}]: ${message.content}`);
+            });
+		}
     } catch (e) {
         try {
             var d = new Date();
@@ -337,9 +374,10 @@ function moduleEnabled(fileString, server)
 	// Check if it includes the 'module' variable.
 	if (con.includes("//module:"))
 	{
-	    var module = con.slice(con.indexOf(":", con.search("//module:")+8)+2, con.indexOf(";",con.search("//module")));
+	    var module = con.slice(con.indexOf(":", con.search("//module:")+8)+2, con.indexOf(";",con.search("//module:")+8));
 		
-		console.log(String(server["modules"][module]));
+		console.log(module);
+		
 		if (server["modules"][module] != undefined || server["modules"][module] == true)
 		{
 		    return true;
@@ -357,7 +395,7 @@ function moduleEnabled(fileString, server)
 
 function canBypassPermissions(user) {
     // Get the JSON with all the owners.
-	fs.open(`${config['local']['userSettings']}/${user.id}.json`, 'r+', () => {})
+	fs.open(`${config['local']['userSettings']}/${user.id}.json`, 'r+', () => {});
     var userSettings = JSON.parse(fs.readFileSync(`${config['local']['userSettings']}/${user.id}.json`));
 
     // Check if you are in it.
@@ -369,7 +407,7 @@ function canBypassPermissions(user) {
 }
 
 // Get a user object from a resolvable.
-function getUserResolvable(user, guild)
+function getUserResolvable(user, guild, message=null)
 {
     console.log(user);
     // Check if the username exists
@@ -391,6 +429,13 @@ function getUserResolvable(user, guild)
 	else if (client.users.find('tag', user))
 	{
 	    return client.users.find('tag', user);
+	}
+	else if (message != null)
+	{
+	    if (message.mentions != undefined)
+		{
+			return message.mentions.users.first();
+		}
 	}
 	
 	// If none of these apply, return null.
@@ -464,5 +509,48 @@ function isOwner(user)
     }
 }
 
+// Get user information by User Object.
+function getUser(user)
+{
+    // Get the JSON with all the owners.
+    fs.open(`${config['local']['userSettings']}/${user.id}.json`, 'r+', () => {})
+    var userSettings = JSON.parse(fs.readFileSync(`${config['local']['userSettings']}/${user.id}.json`));
+
+    // Check if you are in it.
+    if (userSettings != undefined) {
+        return userSettings;
+    } else {
+        return null;
+    }
+}
+
+// If the user is whitelisted.
+function isBlacklisted(user)
+{
+    // Get the JSON with all the owners.
+    fs.open(`${config['local']['userSettings']}/${user.id}.json`, 'r+', () => {})
+    var userSettings = JSON.parse(fs.readFileSync(`${config['local']['userSettings']}/${user.id}.json`));
+
+    // Check if you are in it.
+    if (userSettings['Blacklisted'] != undefined && userSettings['Blacklisted'] == true) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function isWhitelisted(user)
+{
+    // Get the JSON with all the owners.
+    fs.open(`${config['local']['userSettings']}/${user.id}.json`, 'r+', () => {})
+    var userSettings = JSON.parse(fs.readFileSync(`${config['local']['userSettings']}/${user.id}.json`));
+
+    // Check if you are in it.
+    if (userSettings['Whitelisted'] != undefined && userSettings['Whitelisted'] == true) {
+        return true;
+    } else {
+        return false;
+    }
+}
 
 client.login(config['basic']['token']);
