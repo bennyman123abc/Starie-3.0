@@ -137,37 +137,6 @@ function generateShopList()
 	{
 	    // Materials
 		var mats = ["Enchanted", "Copper", "Leather", "Iron", "Silver"];
-
-		var mhi = 0;
-		console.log(mhi);
-			
-			if (type == "Chestplate" || type == "Boots" || type == "Pants" || type == "Helmet" || type=="Sword")
-			{
-				if (mhi > 0.2)
-				{
-				if (type == "Chestplate")
-				{
-					mats = ["Decayed Sternum", "Bherna Mail", "Hunter's Vest", "Maccao Mail", "Malfestio Vest", "Kirin Jacket", "Dianthus Gown", "Storge Mail", "Storge Mail S"];
-				}
-				else if (type == "Boots")
-				{
-					mats = ["Decayed Femur", "Bherna Greaves", "Hunter's Leggings", "Maccao Shinguards", "Malfestio Greaves", "Kirin Leg Guards", "Dianthus Pants", "Storge Greaves", "Storge Greaves S"];
-				}
-				else if (type == "Pants")
-				{
-					mats = ["Decayed Hipbone", "Bherna Belt", "Hunter's Coat", "Maccao Faulds", "Malfestio Faulds", "Kirin Hoop", "Dianthus Skirt", "Storge Faulds", "Storge Faulds S"];
-				}
-				else if (type == "Helmet")
-				{
-					mats = ["Decayed Skull", "Bherna Turban", "Hunter's Cap", "Maccao Helm", "Malfestio Helm", "Kirin Horn", "Dianthus Cap", "Storge Helm", "Storge Helm S"]
-				}
-				else if (type == "Sword")
-				{
-					mats = ["Djinn", "Kitchen Knife", "Moofah Sword", "Lagia Sword", "Giant's Tusk", "Kirin Bolt Ultimus", "Floral Seif", "Skeletal Blade", "Black Sword", "Celestial Sword"];
-				}
-				}
-			}
-			
 		// Generate the list.
 		material = mats[Math.floor(Math.random() * mats.length)];
 			
