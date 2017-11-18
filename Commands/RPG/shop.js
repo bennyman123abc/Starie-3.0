@@ -28,8 +28,12 @@ if (user["stats"] != undefined) {
 
         // Add a Rich Embed field.
         emb.addField(list[i]["name"], info);
+        
     }
-
+    
+    // Add Rich Embed footer
+    emb.addFooter(`${user.tag} has $${server["economy"][user.id]} in their wallet.`)
+    
     // Send the embed.
     message.channel.send("Enter the name of the item you wish to buy. Seperate item names with commas to purchase multiple or type `cancel` to cancel.", {
         embed: emb
