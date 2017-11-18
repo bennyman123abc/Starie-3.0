@@ -147,23 +147,12 @@ function generateShopList() {
             // Generate price.
             var price = (type.length * 4) + (material.length * 8 / 2) + (user["stats"]["level"] * 2);
 
-            // Create it and procedurely generate the name.
-            if (mhi <= 0.2) {
-                var item = {
-                    "type": type,
-                    "might": might,
-                    "name": `${material} ${type}`,
-                    "price": price
-                };
-            } else {
-                var item = {
-                    "type": type,
-                    "might": might,
-                    "name": `${material}`,
-                    "price": price
-                };
-            }
-
+            var item = {
+                "type": type,
+                "might": might,
+                "name": `${material}`,
+                "price": price
+            };
             // Generate the name.
             var name = (material + " " + type).replace(/ /g, "_");
 
@@ -192,22 +181,12 @@ function generateShopList() {
             // Generate price.
             var price = (type.length * 4) + (material.length * 8) + (user["stats"]["level"] * 2) + variation;
 
-            // Create it and procedurely generate the name.
-            if (mhi < 0.5) {
-                var item = {
-                    "type": type,
-                    "might": might,
-                    "name": `${material} ${type}`,
-                    "price": price
-                };
-            } else {
-                var item = {
-                    "type": type,
-                    "might": might,
-                    "name": `${material}`,
-                    "price": price
-                };
-            }
+            var item = {
+                "type": type,
+                "might": might,
+                "name": `${material}`,
+                "price": price
+            };
 
             // Generate the name.
             var name = (material + " " + type).replace(/ /g, "_");
